@@ -1,6 +1,11 @@
 import InputBox from "../components/InputBox";
+import {useNavigate} from "react-router-dom";
 
 const Login = () => {
+    const navigate = useNavigate();
+    const navigateToHome = () => {
+        navigate("/")
+    }
     return (
         <div className="w-[663px]">
             <p className="text-2xl">
@@ -10,7 +15,7 @@ const Login = () => {
             <p className="text-4xl font-bold">
                 What is your name?
             </p>
-            <InputBox placeHolder="input our name" />
+            <InputBox placeHolder="input our name" onClick={navigateToHome} />
         </div>
     );
 }
