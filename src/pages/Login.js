@@ -15,7 +15,7 @@ const Login = () => {
             <p className="text-4xl font-bold">
                 What is your name?
             </p>
-            <InputBox placeHolder="input our name" onClick={navigateToHome} />
+            <InputBox placeHolder="input our name" onClickFunc={navigateToHome} />
         </div>
     );
 }
