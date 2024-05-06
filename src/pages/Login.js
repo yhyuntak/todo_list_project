@@ -5,7 +5,8 @@ import {useState} from "react";
 const Login = () => {
     const navigate = useNavigate();
     const navigateToHome = () => {
-        navigate("/")
+        sessionStorage.setItem("username",value);
+        navigate("/");
     }
 
     const [value, setValue] = useState("");

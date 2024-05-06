@@ -1,8 +1,18 @@
 import InputBox from "../components/InputBox";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import TaskList from "../components/TaskList";
 
 const Home = () => {
+
+    const [username, setUsername] = useState("");
+
+    useEffect(() => {
+        const storedUsername = sessionStorage.getItem("username");
+        if (storedUsername) {
+            setUsername(storedUsername);
+        }
+
+    },[])
     const numOfTask = 0;
     const totalTasks = 0;
 
