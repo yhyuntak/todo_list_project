@@ -55,7 +55,7 @@ const Home = () => {
     return (
         <div className="flex flex-col">
             <div className="text-2xl flex-1">
-                <p>Good afternoon, hyuntak</p>
+                <p>{setGreetingStr()}, {username}</p>
                 <p>You've got</p>
                 <p className="text-5xl">{numOfTask}/{totalTasks}</p>
                 <p>task Today!</p>
@@ -73,5 +73,17 @@ const Home = () => {
     );
 }
 
+const setGreetingStr = () => {
+    const todayHours = new Date().getHours();
+    let greetingStr = "";
+    if (todayHours < 12 && todayHours >= 6) {
+        greetingStr = "Good morning";
+    } else if (todayHours >= 12 && todayHours < 18 ) {
+        greetingStr = "Good afternoon";
+    } else {
+        greetingStr = "Good evening";
+    }
+    return greetingStr;
+}
 
 export default Home;
