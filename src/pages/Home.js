@@ -6,42 +6,63 @@ const Home = () => {
 
     const [username, setUsername] = useState("");
 
-    useEffect(() => {
-        const storedUsername = sessionStorage.getItem("username");
-        if (storedUsername) {
-            setUsername(storedUsername);
-        }
-
-    },[])
-    const numOfTask = 0;
-    const totalTasks = 0;
+    const [numOfTasks, setNumOfTasks] = useState({
+        numOfTask : 0,
+        totalTask : 0
+    });
 
     const [taskContent, setTaskContent] = useState("");
-    const onChangeFunc = (e) => {
-        setTaskContent(e.target.value);
-    }
-
-    const nextId = useRef(4);
 
     const [tasks,setTasks]  = useState([
         {
             id: 1,
-            content: "hello"
+            content: "hello",
+            completed: false
         },
         {
             id: 2,
-            content: "hello 2"
+            content: "hello 2",
+            completed: false
         },
         {
             id: 3,
-            content: "hello 3"
+            content: "hello 3",
+            completed: false
         },
     ])
+
+    const nextId = useRef(4);
+
+    useEffect(() => {
+        // storage에서 username 가져오기
+        const storedUsername = sessionStorage.getItem("username");
+        if (storedUsername) {
+            setUsername(storedUsername);
+        }
+    },[])
+
+    useEffect(() => {
+        // tasks의 변화가 감지될 때마다 전체 tasks의 수를 가져와야함.
+        // 전체 tasks의 수 가져오기
+        const totalTasksLen = tasks.length;
+        setNumOfTasks({
+            numOfTask : tasks.filter(task => task.completed).length,
+            totalTasks : tasks.length
+        })
+    },[tasks])
+
+    const { numOfTask,  totalTasks } = numOfTasks;
+
+    const onChangeFunc = (e) => {
+        setTaskContent(e.target.value);
+    }
+
 
     const onClickFunc = () => {
         const task = {
             id: nextId.current,
-            content: taskContent
+            content: taskContent,
+            completed: false
         };
         setTasks([
             ...tasks,
