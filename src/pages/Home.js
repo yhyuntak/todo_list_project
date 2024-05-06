@@ -1,23 +1,46 @@
 import InputBox from "../components/InputBox";
-import {useState} from "react";
-import Task from "../components/Task";
+import {useRef, useState} from "react";
+import TaskList from "../components/TaskList";
 
 const Home = () => {
     const numOfTask = 0;
     const totalTasks = 0;
 
-    const dummyTasks = [
-        {
-            context: "hello"
-        },
-        {
-            context: "hello 2"
-        },
-        {
-            context: "hello 3"
-        },
-    ]
+    const [taskContent, setTaskContent] = useState("");
+    const onChangeFunc = (e) => {
+        setTaskContent(e.target.value);
+    }
 
+    const nextId = useRef(4);
+
+    const [tasks,setTasks]  = useState([
+        {
+            id: 1,
+            content: "hello"
+        },
+        {
+            id: 2,
+            content: "hello 2"
+        },
+        {
+            id: 3,
+            content: "hello 3"
+        },
+    ])
+
+    const onClickFunc = () => {
+        const task = {
+            id: nextId.current,
+            content: taskContent
+        };
+        setTasks([
+            ...tasks,
+            task
+        ]);
+
+        setTaskContent("");
+        nextId.current += 1;
+    }
 
     return (
         <div className="flex flex-col">
@@ -26,16 +49,14 @@ const Home = () => {
                 <p>You've got</p>
                 <p className="text-5xl">{numOfTask}/{totalTasks}</p>
                 <p>task Today!</p>
-                <InputBox placeHolder="input your task"  />
+                <InputBox value={taskContent} placeHolder="input your task" onChangeFunc={onChangeFunc} onClickFunc={onClickFunc} />
             </div>
             <div className={[
                 totalTasks === 0 ? "bg-[url('./assets/illust_empty.svg')]":"bg-blue-500",
                 "h-[400px]",
                 "bg-cover"
                 ].join(" ")}>
-                {dummyTasks.map((task, index) => (
-                    <Task key={index} task={task} />
-                ))}
+                <TaskList tasks={tasks} />
             </div>
         </div>
 

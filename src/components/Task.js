@@ -12,7 +12,7 @@ const Task = ({task}) => {
             <img src={bool ? checkBoxNor : checkBoxHov} alt=""/>
         </div>
         <div className="border-2 border-black flex-1 text-black">
-            {task.context}
+            {task.content}
         </div>
           <div className="border-2 border-black basis-[28px]">
               <img src={bool ? removeBtnNor : removeBtnHov} alt=""/>

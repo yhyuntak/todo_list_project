@@ -1,10 +1,16 @@
 import InputBox from "../components/InputBox";
 import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 
 const Login = () => {
     const navigate = useNavigate();
     const navigateToHome = () => {
         navigate("/")
+    }
+
+    const [value, setValue] = useState("");
+    const onChangeFunc = (e) => {
+        setValue(e.target.value);
     }
     return (
         <div className="w-[663px]">
@@ -15,7 +21,11 @@ const Login = () => {
             <p className="text-4xl font-bold">
                 What is your name?
             </p>
-            <InputBox placeHolder="input our name" onClickFunc={navigateToHome} />
+            <InputBox placeHolder="input our name"
+                      value={value}
+                onClickFunc={navigateToHome}
+                onChangeFunc={onChangeFunc}
+            />
         </div>
     );
 }
