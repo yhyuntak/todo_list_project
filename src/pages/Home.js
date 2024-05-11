@@ -6,6 +6,7 @@ const Home = () => {
 
     const [username, setUsername] = useState("");
 
+    const [taskId, setTaskId] = useState(0);
     const [completedTasks, setCompletedTasks] = useState(0);
     const [totalTasks, setTotalTasks] = useState(0);
 
@@ -29,14 +30,14 @@ const Home = () => {
         },
     ])
 
-    const nextId = useRef(totalTasks);
-
     useEffect(() => {
         // storage에서 username 가져오기
         const storedUsername = sessionStorage.getItem("username");
         if (storedUsername) {
             setUsername(storedUsername);
         }
+        // 초기 task의 수에 따라 taskId state 설정해주기
+        setTaskId(tasks.length + 1);
     },[])
 
     useEffect(() => {
@@ -52,7 +53,7 @@ const Home = () => {
     const onClickFunc = () => {
 
         const task = {
-            id: nextId.current,
+            id: taskId,
             content: taskContent,
             completed: false
         };
@@ -63,9 +64,27 @@ const Home = () => {
         ]);
 
         setTaskContent("");
-        nextId.current += 1;
+        setTaskId((taskId) => taskId + 1);
     }
 
+    const onDeleteFunc = (currentId) => {
+        return(
+            () => {
+                const deletedTasks = tasks.filter((task) => task.id !== currentId);
+                setTasks(deletedTasks);
+            }
+        )
+    }
+
+    const onCompletedFunc = (currentId) => {
+        return(
+            () => {
+                // taskid를 받아와야하네. completed 는 받아올 필요가 없다. 어차피 !로 토글하면 되니까.
+                setTasks(tasks.map(task =>
+                task.id === currentId ? { ... task, completed: !task.completed } : task));
+            }
+        )
+    }
     return (
         <div className="flex flex-col">
             <div className="text-2xl flex-1">
@@ -76,11 +95,11 @@ const Home = () => {
                 <InputBox value={taskContent} placeHolder="input your task" onChangeFunc={onChangeFunc} onClickFunc={onClickFunc} />
             </div>
             <div className={[
-                totalTasks === 0 ? "bg-[url('./assets/illust_empty.svg')]":"bg-blue-500",
+                totalTasks === 0 ? "bg-[url('./assets/illust_empty.svg')]":"bg-rose-600",
                 "h-[400px]",
                 "bg-cover"
                 ].join(" ")}>
-                <TaskList tasks={tasks} />
+                <TaskList tasks={tasks} onDeleteFunc={onDeleteFunc} onCompletedFunc={onCompletedFunc} />
             </div>
         </div>
 
