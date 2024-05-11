@@ -5,12 +5,13 @@ import removeBtnHov from "../assets/btn_remove_hov.svg"
 import {useState} from "react";
 
 
-const Task = ({task,onDeleteFunc, onCompletedFunc}) => {
-
+const Todo = ({todoObject,onDeleteFunc, onCompletedFunc}) => {
+    const todoId = todoObject[0];
+    const todo = todoObject[1];
     const [completed, setCompleted] = useState(true);
     const onCompleted = () => {
         setCompleted((completed)=>!completed);
-        onCompletedFunc(task.id);
+        onCompletedFunc(todoId);
     }
 
     return (
@@ -19,13 +20,13 @@ const Task = ({task,onDeleteFunc, onCompletedFunc}) => {
             <img src={completed ? checkBoxNor : checkBoxHov} alt=""/>
         </div>
         <div className="border-2 border-black flex-1 text-black">
-            {task.content}
+            {todo.content}
         </div>
-          <div className="border-2 border-black basis-[28px]" onClick={onDeleteFunc(task.id)}>
+          <div className="border-2 border-black basis-[28px]" onClick={onDeleteFunc(todoId)}>
               <img src={completed ? removeBtnNor : removeBtnHov} alt=""/>
           </div>
       </div>
     );
 }
 
-export default Task;
+export default Todo;
