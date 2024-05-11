@@ -6,10 +6,8 @@ const Home = () => {
 
     const [username, setUsername] = useState("");
 
-    const [numOfTasks, setNumOfTasks] = useState({
-        numOfTask : 0,
-        totalTask : 0
-    });
+    const [completedTasks, setCompletedTasks] = useState(0);
+    const [totalTasks, setTotalTasks] = useState(0);
 
     const [taskContent, setTaskContent] = useState("");
 
@@ -31,7 +29,7 @@ const Home = () => {
         },
     ])
 
-    const nextId = useRef(4);
+    const nextId = useRef(totalTasks);
 
     useEffect(() => {
         // storage에서 username 가져오기
@@ -44,26 +42,21 @@ const Home = () => {
     useEffect(() => {
         // tasks의 변화가 감지될 때마다 전체 tasks의 수를 가져와야함.
         // 전체 tasks의 수 가져오기
-        const totalTasksLen = tasks.length;
-        setNumOfTasks({
-            numOfTask : tasks.filter(task => task.completed).length,
-            totalTasks : tasks.length
-        })
+        setTotalTasks(tasks.length)
     },[tasks])
-
-    const { numOfTask,  totalTasks } = numOfTasks;
 
     const onChangeFunc = (e) => {
         setTaskContent(e.target.value);
     }
 
-
     const onClickFunc = () => {
+
         const task = {
             id: nextId.current,
             content: taskContent,
             completed: false
         };
+
         setTasks([
             ...tasks,
             task
@@ -78,7 +71,7 @@ const Home = () => {
             <div className="text-2xl flex-1">
                 <p>{setGreetingStr()}, {username}</p>
                 <p>You've got</p>
-                <p className="text-5xl">{numOfTask}/{totalTasks}</p>
+                <p className="text-5xl">{completedTasks}/{totalTasks}</p>
                 <p>task Today!</p>
                 <InputBox value={taskContent} placeHolder="input your task" onChangeFunc={onChangeFunc} onClickFunc={onClickFunc} />
             </div>
