@@ -5,14 +5,15 @@ import {useState} from "react";
 const Login = () => {
     const navigate = useNavigate();
     const navigateToHome = () => {
-        sessionStorage.setItem("username",value);
+        sessionStorage.setItem("username",username);
         navigate("/");
     }
 
-    const [value, setValue] = useState("");
+    const [username, setUsername] = useState("");
     const onChangeFunc = (e) => {
-        setValue(e.target.value);
+        setUsername(e.target.value);
     }
+
     return (
         <div className="w-[663px]">
             <p className="text-2xl">
@@ -23,7 +24,7 @@ const Login = () => {
                 What is your name?
             </p>
             <InputBox placeHolder="input our name"
-                      value={value}
+                      value={username}
                 onClickFunc={navigateToHome}
                 onChangeFunc={onChangeFunc}
             />
